@@ -12,13 +12,14 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-def build_network(results, output_file='similarity_network.png'):
+def build_network(results, output_file='similarity_network.png', gexf_file='similarity_network.gexf'):
     """
-    Build a network graph from text similarities and visualize it with matplotlib.
+    Build a network graph from text similarities and visualize it with matplotlib and export to Gephi.
 
     Args:
     results -- list of similarity results
-    output_file -- name of the output file (default: 'similarity_network.png')
+    output_file -- name of the output PNG file (default: 'similarity_network.png')
+    gexf_file -- name of the output Gephi/GEXF file (default: 'similarity_network.gexf')
 
     Returns:
     A NetworkX Graph of text similarities
@@ -32,26 +33,48 @@ def build_network(results, output_file='similarity_network.png'):
         text2 = result['dir2_file']
         weight = result['num_shared_shingles']
 
+        # Add nodes with additional attributes if available
+        node1_attrs = {'type': 'dir1'}
+        node2_attrs = {'type': 'dir2'}
+        if 'similarity' in result:
+            node1_attrs['similarity'] = result['similarity']
+            node2_attrs['similarity'] = result['similarity']
+
         # Add nodes if they don't exist
         if not graph.has_node(text1):
-            graph.add_node(text1)
+            graph.add_node(text1, **node1_attrs)
         if not graph.has_node(text2):
-            graph.add_node(text2)
+            graph.add_node(text2, **node2_attrs)
 
-        # Add edge with weight (or update weight if edge already exists)
+        # Add edge with weight and additional attributes
+        edge_attrs = {
+            'weight': weight,
+            'num_shared_shingles': weight
+        }
+        if 'similarity' in result:
+            edge_attrs['similarity'] = result['similarity']
+
+        # Add edge with attributes (or update if edge already exists)
         if graph.has_edge(text1, text2):
-            graph[text1][text2]['weight'] += weight
+            # Update existing edge attributes
+            for key, value in edge_attrs.items():
+                graph[text1][text2][key] = max(graph[text1][text2].get(key, 0), value)
         else:
-            graph.add_edge(text1, text2, weight=weight)
+            graph.add_edge(text1, text2, **edge_attrs)
 
-    # Visualize the graph
+    # Export to GEXF format for Gephi
+    nx.write_gexf(graph, gexf_file)
+
+    # Visualize the graph with matplotlib
     plt.figure(figsize=(20, 20))
 
     # Use spring layout for node positioning
     pos = nx.spring_layout(graph, k=0.5, iterations=50)
 
-    # Draw nodes
-    nx.draw_networkx_nodes(graph, pos, node_color='skyblue', node_size=300)
+    # Draw nodes with different colors based on directory
+    node_colors = ['skyblue' if graph.nodes[node]['type'] == 'dir1' else 'lightgreen'
+                  for node in graph.nodes()]
+    nx.draw_networkx_nodes(graph, pos, node_color=node_colors, node_size=300)
 
     # Draw edges with width proportional to weight
     edges = graph.edges()
