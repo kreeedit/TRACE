@@ -3,8 +3,9 @@
 
 TRACE is a simple Python script that compares the similarities between different text files using two methods: shingling and sentence embeddings. It allows you to specify the directory containing the text (txt) files. It also creates a network graph of the text similarities to see the relations of the different texts. The result of the analytics is stored in a json file (_similarity_results.json_). TRACE can be useful for tasks such as plagiarism detection, document clustering, or identifying related documents in large text collections.
 
-<img src="daffy-trace.gif" width="400" />
-
+<p align="center">
+  <img src="daffy-trace.gif" width="400" />
+</p>
 
 ### USAGE
 
