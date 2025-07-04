@@ -1,5 +1,6 @@
 ## TRACE - Text Reuse Analysis and Comparison Engine
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 TRACE is a simple Python script that compares the similarities between different text files using two methods: shingling and sentence embeddings. It allows you to specify the directory containing the text (txt) files. It also creates a network graph of the text similarities to see the relations of the different texts. The result of the analytics is stored in a json file (_similarity_results.json_). TRACE can be useful for tasks such as plagiarism detection, document clustering, or identifying related documents in large text collections.
 
