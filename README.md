@@ -61,3 +61,29 @@ The generated GEXF file can be opened by a variety of graph visualization app, s
 
 
 <img src="visualization.png" width="700" />
+
+---
+## Cite
+### APA Style
+Kovács, T. (2023). TRACE: Text Reuse Analysis and Comparison Engine  [Computer software]. GitHub. https://github.com/kreeedit/FLAME Zenodo. https://doi.org/10.5281/zenodo.8185847
+
+### BibTex
+
+
+```BibTex
+@software{Kovacs_FLAME_2025,
+  author = {Kovács, Tamás},
+  title = {{TRACE: Text Reuse Analysis and Comparison Engine},
+  version = {1.0.0},
+  publisher = {Zenodo},
+  year = {2023},
+  doi = {10.5281/zenodo.8185847},
+  url = {https://github.com/kreeedit/FLAME}
+}
+```
+
+---
+## License
+
+This project is licensed under the **Apache 2.0 License**.
+
